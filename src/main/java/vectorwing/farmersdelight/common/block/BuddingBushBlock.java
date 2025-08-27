@@ -2,6 +2,7 @@ package vectorwing.farmersdelight.common.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -13,7 +14,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -57,7 +57,7 @@ public class BuddingBushBlock extends BushBlock
 
 	@Override
 	public boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {
-		return state.is(Blocks.FARMLAND);
+		return state.getBlock() instanceof FarmBlock;
 	}
 
 	public IntegerProperty getAgeProperty() {

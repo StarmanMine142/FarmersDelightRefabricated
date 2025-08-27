@@ -17,7 +17,9 @@
     "RecipeBookSettingsMixin",
     "StemBlockMixin",
     "SugarCaneBlockMixin",
-    "accessor.LootContextAccessor"
+    "accessor.LootContextAccessor",
+    "KeepRichSoilTreeMixin",
+    "KeepRichSoilUntrampledMixin"
   ],
   "client": [
     "CanvasSignEditScreenMixin",

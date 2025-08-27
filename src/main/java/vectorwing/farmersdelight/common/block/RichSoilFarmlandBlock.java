@@ -11,6 +11,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import vectorwing.farmersdelight.common.Configuration;
 import vectorwing.farmersdelight.common.registry.ModBlocks;
 import vectorwing.farmersdelight.common.tag.ModTags;
@@ -22,8 +23,8 @@ public class RichSoilFarmlandBlock extends FarmBlock
 		super(properties);
 	}
 
-	private static boolean hasWater(LevelReader level, BlockPos pos) {
-		for (BlockPos nearbyPos : BlockPos.betweenClosed(pos.offset(-4, 0, -4), pos.offset(4, 1, 4))) {
+	private static boolean isNearWater(LevelReader level, BlockPos pos) {
+		for(BlockPos nearbyPos : BlockPos.betweenClosed(pos.offset(-4, 0, -4), pos.offset(4, 1, 4))) {
 			if (level.getFluidState(nearbyPos).is(FluidTags.WATER)) {
 				return true;
 			}
@@ -33,8 +34,9 @@ public class RichSoilFarmlandBlock extends FarmBlock
 		return false;
 	}
 
-	public static void turnToRichSoil(BlockState state, Level level, BlockPos pos) {
+	public static void turnToRichSoil(Entity entity, BlockState state, Level level, BlockPos pos) {
 		level.setBlockAndUpdate(pos, pushEntitiesUp(state, ModBlocks.RICH_SOIL.get().defaultBlockState(), level, pos));
+		level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(entity, state));
 	}
 
 	@Override
@@ -53,14 +55,14 @@ public class RichSoilFarmlandBlock extends FarmBlock
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
 		if (!state.canSurvive(level, pos)) {
-			turnToRichSoil(state, level, pos);
+			turnToRichSoil(null, state, level, pos);
 		}
 	}
 
 	@Override
 	public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 		int moisture = state.getValue(MOISTURE);
-		if (!hasWater(level, pos) && !level.isRainingAt(pos.above())) {
+		if (!isNearWater(level, pos) && !level.isRainingAt(pos.above())) {
 			if (moisture > 0) {
 				level.setBlock(pos, state.setValue(MOISTURE, moisture - 1), 2);
 			}
@@ -108,7 +110,7 @@ public class RichSoilFarmlandBlock extends FarmBlock
 	}
 
 	@Override
-	public void fallOn(Level level, BlockState state, BlockPos pos, Entity entityIn, float fallDistance) {
-		// Rich Soil is immune to trampling
+	public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+		entity.causeFallDamage(fallDistance, 1.0F, entity.damageSources().fall());
 	}
 }

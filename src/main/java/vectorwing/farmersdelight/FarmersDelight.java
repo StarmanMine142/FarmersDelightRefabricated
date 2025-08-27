@@ -10,6 +10,7 @@ import vectorwing.farmersdelight.common.CommonSetup;
 import vectorwing.farmersdelight.common.Configuration;
 import vectorwing.farmersdelight.common.block.CuttingBoardBlock;
 import vectorwing.farmersdelight.common.block.RichSoilBlock;
+import vectorwing.farmersdelight.common.block.entity.BasketBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.CookingPotBlockEntity;
 import vectorwing.farmersdelight.common.block.entity.CuttingBoardBlockEntity;
 import vectorwing.farmersdelight.common.crafting.ingredient.ItemAbilityIngredient;
@@ -68,6 +69,7 @@ public class FarmersDelight implements ModInitializer
 		// new stuff
 		ModBiomeModifiers.init();
 		CookingPotBlockEntity.init();
+		BasketBlockEntity.init(); //TODO: add inv wrapper here
 		CuttingBoardBlock.init();
 		CuttingBoardBlockEntity.init();
 		DogFoodItem.init();

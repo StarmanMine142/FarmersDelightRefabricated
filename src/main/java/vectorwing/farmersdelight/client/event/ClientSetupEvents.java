@@ -47,7 +47,7 @@ public class ClientSetupEvents
 	}
 
 	/*
-	@SubscribeEvent
+	@SubscribeEvent(priority = EventPriority.LOW)
 	public static void registerGuiLayers(RegisterGuiLayersEvent event) {
 		HUDOverlays.register(event);
 	}

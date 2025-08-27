@@ -3,6 +3,7 @@ package vectorwing.farmersdelight.common.block;
 import com.mojang.serialization.MapCodec;
 import io.github.fabricators_of_create.porting_lib.tool.ItemAbilities;
 import net.fabricmc.fabric.api.registry.LandPathNodeTypesRegistry;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -71,7 +72,7 @@ public class StoveBlock extends BaseEntityBlock
 				extinguish(state, level, pos);
 				heldStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
 				return ItemInteractionResult.SUCCESS;
-			} else if (heldItem == Items.WATER_BUCKET) {
+			} else if (heldStack.is(ConventionalItemTags.WATER_BUCKETS)) {
 				if (!level.isClientSide()) {
 					level.playSound(null, pos, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 1.0F, 1.0F);
 				}
